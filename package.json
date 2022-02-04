@@ -1,0 +1,45 @@
+{
+  "name": "botdex-farm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "truffle test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.3",
+    "@nomiclabs/hardhat-etherscan": "^2.1.8",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "@nomiclabs/hardhat-web3": "^2.0.0",
+    "@openzeppelin/contracts": "^4.4.1",
+    "@openzeppelin/test-helpers": "^0.5.15",
+    "@truffle/hdwallet-provider": "^2.0.0",
+    "bn": "^1.0.5",
+    "chai": "^4.3.4",
+    "chai-arrays": "^2.2.0",
+    "chai-bn": "^0.2.1",
+    "dotenv": "^10.0.0",
+    "eth-crypto": "^1.9.0",
+    "hardhat-deploy": "^0.9.22",
+    "hardhat-docgen": "^1.2.1",
+    "hardhat-gas-reporter": "^1.0.6",
+    "openzeppelin-contracts": "^4.0.0",
+    "openzeppelin-solidity": "^4.1.0",
+    "openzeppelin-test-helpers": "^0.5.1",
+    "solidity-coverage": "^0.7.17",
+    "truffle": "^5.3.6",
+    "truffle-contract-size": "^2.0.1",
+    "truffle-flattener": "^1.5.0",
+    "truffle-plugin-verify": "^0.5.14",
+    "web3": "^1.6.1"
+  },
+  "devDependencies": {
+    "hardhat": "^2.8.0"
+  }
+}

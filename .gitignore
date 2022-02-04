@@ -1,0 +1,14 @@
+/node_modules/
+/build/
+.idea/
+.env
+node_modules
+.history
+
+#Buidler files
+cache
+artifacts
+coverage
+coverage.json
+package-lock.json
+
