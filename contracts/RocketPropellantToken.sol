@@ -1,4 +1,5 @@
-pragma solidity ^0.8.7;
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.13;
 
 import "./libs/token/BEP20.sol";
 import "./libs/rocketswap-lib/math/SafeMath.sol";

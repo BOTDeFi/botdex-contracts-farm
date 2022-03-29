@@ -1,4 +1,5 @@
-pragma solidity 0.8.7;
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.13;
 
 interface IMasterBotdex {
     function deposit(uint256 _pid, uint256 _amount) external;

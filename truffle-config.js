@@ -57,7 +57,7 @@ module.exports = {
             skipDryRun: true
         },
         bscTestnet: {
-            provider: () => new HDWalletProvider(MNEMONIC, "https://data-seed-prebsc-2-s3.binance.org:8545"),
+            provider: () => new HDWalletProvider(MNEMONIC, "https://data-seed-prebsc-2-s2.binance.org:8545"),
             network_id: 97,
             confirmations: 2,
             timeoutBlocks: 200,
@@ -90,7 +90,7 @@ module.exports = {
 
     compilers: {
         solc: {
-            version: "0.8.7",
+            version: "0.8.13",
             settings: {
                 optimizer: {
                     enabled: true,

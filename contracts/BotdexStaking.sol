@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.13;
 
-import "../node_modules/@openzeppelin/contracts/access/AccessControl.sol";
-import "../node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "../node_modules/@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 contract BotdexStaking is AccessControl, ReentrancyGuard {
     PoolInfo[] public pools;
@@ -12,7 +12,7 @@ contract BotdexStaking is AccessControl, ReentrancyGuard {
     address public rewardKeeper;
 
     uint256 constant PROCENT_BASE = 1000;
-    uint256 constant YEAR = 60 * 60 * 24 * 365;
+    uint256 constant YEAR = 365 days;
 
     mapping(address => mapping(uint256 => UserInfo)) public userAtPoolInfo; // UserInfo for address and index
 

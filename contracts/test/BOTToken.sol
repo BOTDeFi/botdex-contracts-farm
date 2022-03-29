@@ -7,8 +7,7 @@
 */
 
 // SPDX-License-Identifier: MIT
-
-pragma solidity ^0.8.6;
+pragma solidity 0.8.13;
 
 import "../libs/rocketswap-lib/math/SafeMath.sol";
 import "../libs/rocketswap-lib/access/Ownable.sol";

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.13;
 
 import "./libs/token/BEP20.sol";
 import "./libs/token/SafeBEP20.sol";
@@ -36,7 +36,6 @@ contract MasterBotdex is Ownable {
     struct UserInfo {
         uint256 amount; // How many LP tokens the user has provided.
         uint256 rewardDebt; // Reward debt. See explanation below.
-        uint256 stakeAmount;
         //
         // We do some fancy math here. Basically, any point in time, the amount of RP1s
         // entitled to a user but is pending to be distributed is:
@@ -60,8 +59,6 @@ contract MasterBotdex is Ownable {
 
     // The BOT TOKEN!
     RocketPropellant public propellant;
-    // Dev address.
-    address public devaddr;
     // BOT tokens created per block.
     uint256 public propellantPerBlock;
     // Bonus muliplier for early propellant makers.
@@ -87,33 +84,23 @@ contract MasterBotdex is Ownable {
         uint256 indexed pid,
         uint256 amount
     );
+    event MigratorChanges(address migrator);
+    event MultiplierUpdate(uint256 multiplierNumber);
 
     constructor(
         RocketPropellant _propellant,
-        address _devaddr,
         uint256 _propellantPerBlock,
         uint256 _startBlock
     ) {
         propellant = _propellant;
-        devaddr = _devaddr;
         propellantPerBlock = _propellantPerBlock;
         startBlock = _startBlock;
-
-        // staking pool
-        poolInfo.push(
-            PoolInfo({
-                lpToken: _propellant,
-                allocPoint: 1000,
-                lastRewardBlock: startBlock,
-                accBOTPerShare: 0
-            })
-        );
-
-        totalAllocPoint = 1000;
     }
 
     function updateMultiplier(uint256 multiplierNumber) public onlyOwner {
+        massUpdatePools();
         BONUS_MULTIPLIER = multiplierNumber;
+        emit MultiplierUpdate(multiplierNumber);
     }
 
     function poolLength() external view returns (uint256) {
@@ -142,7 +129,6 @@ contract MasterBotdex is Ownable {
                 accBOTPerShare: 0
             })
         );
-        updateStakingPool();
     }
 
     // Update the given pool's BOT allocation point. Can only be called by the owner.
@@ -153,31 +139,21 @@ contract MasterBotdex is Ownable {
     ) public onlyOwner {
         if (_withUpdate) {
             massUpdatePools();
+        } else {
+            updatePool(_pid);
         }
         uint256 prevAllocPoint = poolInfo[_pid].allocPoint;
-        poolInfo[_pid].allocPoint = _allocPoint;
         if (prevAllocPoint != _allocPoint) {
+            poolInfo[_pid].allocPoint = _allocPoint;
             totalAllocPoint = totalAllocPoint - prevAllocPoint + _allocPoint;
-            updateStakingPool();
         }
     }
 
-    function updateStakingPool() internal {
-        uint256 length = poolInfo.length;
-        uint256 points = 0;
-        for (uint256 pid = 1; pid < length; ++pid) {
-            points += poolInfo[pid].allocPoint;
-        }
-        if (points != 0) {
-            points = points / 3;
-            totalAllocPoint = totalAllocPoint - poolInfo[0].allocPoint + points;
-            poolInfo[0].allocPoint = points;
-        }
-    }
 
     // Set the migrator contract. Can only be called by the owner.
     function setMigrator(IMigratorBotdex _migrator) public onlyOwner {
         migrator = _migrator;
+        emit MigratorChanges(address(_migrator));
     }
 
     // Migrate lp token to another lp contract. Can be called by anyone. We trust that migrator contract is good.
@@ -328,11 +304,5 @@ contract MasterBotdex is Ownable {
     // Safe propellant transfer function, just in case if rounding error causes pool to not have enough RP1s.
     function safeRP1Transfer(address _to, uint256 _amount) internal {
         propellant.transferFrom(treasure, _to, _amount);
-    }
-
-    // Update dev address by the previous dev.
-    function dev(address _devaddr) public {
-        require(msg.sender == devaddr, "dev: wut?");
-        devaddr = _devaddr;
     }
 }

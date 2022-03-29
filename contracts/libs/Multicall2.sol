@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 pragma solidity >=0.8.7;
 
 /// @title Multicall2 - Aggregate results from multiple read-only function calls

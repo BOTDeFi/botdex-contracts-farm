@@ -1,6 +1,5 @@
 /node_modules/
 /build/
-.idea/
 .env
 node_modules
 .history
